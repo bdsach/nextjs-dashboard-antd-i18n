@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
 import NextImage from "next/image";
+import React, { useState } from "react";
 import { ConfigProvider, Breadcrumb, Button, Layout, Menu, theme } from "antd";
 import {
   LaptopOutlined,
@@ -11,6 +11,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { themeConfig } from "@/styles/antd.config";
+import { ReactElement } from "react";
 import type { MenuProps } from "antd";
 
 const { Header, Sider, Content } = Layout;
@@ -42,11 +43,12 @@ const items2: MenuProps["items"] = [
   };
 });
 
-export default function MainLayout() {
+export default function MainLayout({ children }: { children: ReactElement }) {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
   return (
     <ConfigProvider theme={themeConfig}>
       <Layout style={{ minHeight: "100vh" }}>
@@ -96,7 +98,13 @@ export default function MainLayout() {
             />
           </Sider>
           <Layout>
-            <Header style={{ padding: 0, display: "inline-flex", alignItems: "center" }}>
+            <Header
+              style={{
+                padding: 0,
+                display: "inline-flex",
+                alignItems: "center",
+              }}
+            >
               <Button
                 type="text"
                 icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -107,7 +115,7 @@ export default function MainLayout() {
                   height: 64,
                 }}
               />
-               <Breadcrumb
+              <Breadcrumb
                 items={[{ title: "Home" }, { title: "List" }, { title: "App" }]}
                 style={{ margin: "16px 0" }}
               />
@@ -122,7 +130,7 @@ export default function MainLayout() {
                   borderRadius: borderRadiusLG,
                 }}
               >
-                Content
+                {children}
               </Content>
             </div>
           </Layout>
