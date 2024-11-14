@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Breadcrumb, Button, Layout, Menu, theme } from "antd";
+import NextImage from "next/image";
+import { ConfigProvider, Breadcrumb, Button, Layout, Menu, theme } from "antd";
 import {
   LaptopOutlined,
   MenuFoldOutlined,
@@ -9,6 +10,7 @@ import {
   NotificationOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import { themeConfig } from "@/styles/antd.config";
 import type { MenuProps } from "antd";
 
 const { Header, Sider, Content } = Layout;
@@ -46,66 +48,86 @@ export default function MainLayout() {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Header style={{ display: "flex", alignItems: "center" }}>
-        <div className="demo-logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          // selectedKeys={["3"]}
-          defaultSelectedKeys={["1"]}
-          items={items1}
-          style={{ flex: 1, minWidth: 0 }}
-        />
-      </Header>
-      <Layout>
-        <Sider
-          trigger={null}
-          collapsible
-          collapsed={collapsed}
-          width={200}
-          style={{ background: colorBgContainer }}
+    <ConfigProvider theme={themeConfig}>
+      <Layout style={{ minHeight: "100vh" }}>
+        <Header
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: 0,
+          }}
         >
-          <Menu
-            mode="inline"
-            // defaultSelectedKeys={["9"]}
-            // defaultOpenKeys={["sub3"]}
-            style={{ height: "100%", borderRight: 0 }}
-            items={items2}
-          />
-        </Sider>
-        <Layout>
-          <Header style={{ padding: 0, background: colorBgContainer }}>
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: "16px",
-                width: 64,
-                height: 64,
-              }}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <NextImage
+              src={`https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg`}
+              width={32}
+              height={32}
+              alt="ant design logo"
+              style={{ margin: `0 16px` }}
             />
-          </Header>
-          <div style={{ padding: "0 24px 24px" }}>
-            <Breadcrumb
-              items={[{ title: "Home" }, { title: "List" }, { title: "App" }]}
-              style={{ margin: "16px 0" }}
-            />
-            <Content
-              style={{
-                padding: 24,
-                margin: 0,
-                minHeight: 280,
-                background: colorBgContainer,
-                borderRadius: borderRadiusLG,
-              }}
-            >
-              Content
-            </Content>
+            <span style={{ fontSize: "20px", fontWeight: "bold" }}>
+              Ant Design
+            </span>
           </div>
+          <Menu
+            theme={`light`}
+            mode="horizontal"
+            // selectedKeys={["3"]}
+            defaultSelectedKeys={["1"]}
+            items={items1}
+          />
+        </Header>
+        <Layout>
+          <Sider
+            trigger={null}
+            collapsible
+            collapsed={collapsed}
+            width={200}
+            style={{ background: colorBgContainer }}
+            collapsedWidth={52}
+          >
+            <Menu
+              mode="inline"
+              // defaultSelectedKeys={["9"]}
+              // defaultOpenKeys={["sub3"]}
+              style={{ height: "100%", borderRight: 0 }}
+              items={items2}
+            />
+          </Sider>
+          <Layout>
+            <Header style={{ padding: 0, display: "inline-flex", alignItems: "center" }}>
+              <Button
+                type="text"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+                style={{
+                  fontSize: "16px",
+                  width: 64,
+                  height: 64,
+                }}
+              />
+               <Breadcrumb
+                items={[{ title: "Home" }, { title: "List" }, { title: "App" }]}
+                style={{ margin: "16px 0" }}
+              />
+            </Header>
+            <div style={{ padding: "24px" }}>
+              <Content
+                style={{
+                  padding: 24,
+                  margin: 0,
+                  minHeight: 280,
+                  background: colorBgContainer,
+                  borderRadius: borderRadiusLG,
+                }}
+              >
+                Content
+              </Content>
+            </div>
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
+    </ConfigProvider>
   );
 }
